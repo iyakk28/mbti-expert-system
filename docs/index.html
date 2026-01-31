@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI Expert System - Project Sistem Pakar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f1f5f9;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid #8b5cf6;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #60a5fa, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #8b5cf6;
+        }
+        
+        .card h2 {
+            color: #8b5cf6;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .feature i {
+            font-size: 2rem;
+            color: #8b5cf6;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #8b5cf6;
+            color: #8b5cf6;
+        }
+        
+        .btn-outline:hover {
+            background: #8b5cf6;
+            color: white;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .tech-item {
+            background: rgba(30, 41, 59, 0.9);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid #475569;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .demo-section {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+        }
+        
+        .question-demo {
+            background: rgba(30, 41, 59, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .scale-demo {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .scale-btn {
+            padding: 1rem 1.5rem;
+            border: 2px solid #475569;
+            background: rgba(15, 23, 42, 0.9);
+            color: #cbd5e1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .scale-btn:hover {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .scale-btn.active {
+            background: #8b5cf6;
+            color: white;
+            border-color: #8b5cf6;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        .result-demo {
+            background: linear-gradient(45deg, #0f172a, #1e293b);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .mbti-badge {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .logo { font-size: 3rem; }
+            .container { padding: 1rem; }
+            .scale-demo { flex-direction: column; }
+            .scale-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+        </div>
+        <h1>MBTI EXPERT SYSTEM</h1>
+        <p class="tagline">
+            Sistem Pakar Deteksi Kepribadian berbasis MBTI & Fungsi Kognitif Carl Jung<br>
+            Menggunakan 60 pertanyaan skala Likert untuk hasil yang akurat
+        </p>
+        
+        <div class="tech-stack">
+            <div class="tech-item">
+                <i class="fab fa-laravel"></i> Laravel 10
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-database"></i> MySQL
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-php"></i> PHP 8.2
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-palette"></i> Tailwind CSS
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-js"></i> Alpine.js
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Project Overview -->
+        <div class="card">
+            <h2><i class="fas fa-info-circle"></i> Tentang Project</h2>
+            <p>Ini adalah project Sistem Pakar untuk mendeteksi tipe kepribadian MBTI seseorang berdasarkan teori fungsi kognitif Carl Jung. Sistem menggunakan 60 pertanyaan dengan skala Likert 1-5 untuk mendapatkan hasil yang akurat.</p>
+            
+            <div class="features-grid">
+                <div class="feature">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>60 Pertanyaan</h3>
+                    <p>Skala Likert 1-5 untuk pengukuran yang presisi</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>16 Tipe Lengkap</h3>
+                    <p>Analisis komprehensif semua tipe MBTI</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-user-friends"></i>
+                    <h3>Fungsi Kognitif</h3>
+                    <p>Berdasarkan teori Dominant, Auxiliary, Tertiary, Inferior</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-share-alt"></i>
+                    <h3>Share Hasil</h3>
+                    <p>Kirim hasil via WhatsApp & Email</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="card" style="text-align: center;">
+            <h2><i class="fas fa-rocket"></i> Aksi Cepat</h2>
+            <div style="margin: 2rem 0;">
+                <a href="https://github.com/iyakk28/mbti-expert-system" class="btn" target="_blank">
+                    <i class="fab fa-github"></i> Lihat Source Code
+                </a>
+                <button onclick="showDemo()" class="btn btn-outline">
+                    <i class="fas fa-play-circle"></i> Coba Demo
+                </button>
+                <a href="#installation" class="btn btn-outline">
+                    <i class="fas fa-download"></i> Instalasi Lokal
+                </a>
+            </div>
+        </div>
+
+        <!-- Live Demo Section -->
+        <div id="demoSection" class="demo-section" style="display: none;">
+            <h2><i class="fas fa-gamepad"></i> Live Demo</h2>
+            <p>Coba simulasi pertanyaan MBTI (contoh singkat)</p>
+            
+            <div class="question-demo">
+                <h3>Pertanyaan 1/5</h3>
+                <p style="font-size: 1.2rem; margin: 1.5rem 0;">"Saya merasa lebih berenergi setelah menghabiskan waktu bersama banyak orang."</p>
+                
+                <div class="scale-demo">
+                    <button class="scale-btn" onclick="selectScale(1)">😠 Sangat Tidak Setuju</button>
+                    <button class="scale-btn" onclick="selectScale(2)">😕 Tidak Setuju</button>
+                    <button class="scale-btn" onclick="selectScale(3)">😐 Netral</button>
+                    <button class="scale-btn" onclick="selectScale(4)">🙂 Setuju</button>
+                    <button class="scale-btn" onclick="selectScale(5)">😄 Sangat Setuju</button>
+                </div>
+                
+                <button onclick="nextQuestion()" class="btn" id="nextBtn" disabled>
+                    <i class="fas fa-arrow-right"></i> Lanjut ke Pertanyaan 2
+                </button>
+                
+                <div class="result-demo" id="resultDemo">
+                    <h3><i class="fas fa-trophy"></i> Hasil Demo Simulasi</h3>
+                    <div class="mbti-badge" id="demoMBTI">ENFP</div>
+                    <p><strong>The Campaigner</strong> - Energik, Kreatif, Sosial, Empati Tinggi</p>
+                    <div style="margin-top: 1rem;">
+                        <button onclick="resetDemo()" class="btn btn-outline">
+                            <i class="fas fa-redo"></i> Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Installation Guide -->
+        <div class="card" id="installation">
+            <h2><i class="fas fa-terminal"></i> Instalasi & Menjalankan</h2>
+            
+            <h3 style="color: #60a5fa; margin-top: 1.5rem;">📥 Clone Repository</h3>
+            <div style="background: #0f172a; padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                <code style="color: #7dd3fc;">git clone https://github.com/YOUR-USERNAME/mbti-expert-system.git</code>
+            </div>
+            
+            <h3 style="color: #60a5fa; margin-top: 1.5rem;">⚙️ Setup Environment</h3>
+            <ol style="margin: 1rem 0 1rem 2rem; color: #cbd5e1;">
+                <li>Masuk ke folder project: <code>cd mbti-expert-system</code></li>
+                <li>Install dependencies: <code>composer install</code></li>
+                <li>Copy environment file: <code>cp .env.example .env</code></li>
+                <li>Generate app key: <code>php artisan key:generate</code></li>
+                <li>Setup database di file <code>.env</code></li>
+                <li>Jalankan migrasi: <code>php artisan migrate</code></li>
+            </ol>
+            
+            <h3 style="color: #60a5fa; margin-top: 1.5rem;">🚀 Menjalankan Aplikasi</h3>
+            <div style="background: #0f172a; padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                <code style="color: #7dd3fc;">php artisan serve</code>
+            </div>
+            <p>Buka browser dan akses: <a href="http://localhost:8000" style="color: #60a5fa;">http://localhost:8000</a></p>
+        </div>
+
+        <!-- Features Detail -->
+        <div class="card">
+            <h2><i class="fas fa-star"></i> Fitur Lengkap</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                <div>
+                    <h3 style="color: #10b981;"><i class="fas fa-user-check"></i> User Experience</h3>
+                    <ul style="margin-left: 1.5rem; color: #cbd5e1;">
+                        <li>Input nama & usia personal</li>
+                        <li>Progress bar real-time</li>
+                        <li>Animasi interaktif</li>
+                        <li>Responsive design</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="color: #f59e0b;"><i class="fas fa-chart-line"></i> Analisis MBTI</h3>
+                    <ul style="margin-left: 1.5rem; color: #cbd5e1;">
+                        <li>Scoring algorithm akurat</li>
+                        <li>Purity score (0-100%)</li>
+                        <li>Fungsi kognitif detail</li>
+                        <li>Karir yang cocok</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="color: #ec4899;"><i class="fas fa-share-square"></i> Output & Share</h3>
+                    <ul style="margin-left: 1.5rem; color: #cbd5e1;">
+                        <li>Hasil detail lengkap</li>
+                        <li>Kirim ke WhatsApp</li>
+                        <li>Kirim ke Email</li>
+                        <li>Share ke media sosial</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><i class="fas fa-code"></i> Dibangun dengan ❤️ untuk Project Sistem Pakar</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            <i class="fas fa-graduation-cap"></i> Tugas Akhir Mata Kuliah Sistem Pakar<br>
+            <i class="fas fa-calendar-alt"></i> © 2024 - All Rights Reserved
+        </p>
+        <div style="margin-top: 1rem;">
+            <a href="https://github.com/iyakk28" style="color: #94a3b8; margin: 0 1rem;">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Demo Logic
+        let currentQuestion = 1;
+        let demoScore = 0;
+        let selectedScale = 0;
+        
+        function showDemo() {
+            document.getElementById('demoSection').style.display = 'block';
+            document.getElementById('demoSection').scrollIntoView({ behavior: 'smooth' });
+            resetDemo();
+        }
+        
+        function selectScale(scale) {
+            selectedScale = scale;
+            demoScore += scale;
+            
+            // Update button styles
+            document.querySelectorAll('.scale-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+        }
+        
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion <= 5) {
+                // Update question text
+                const questions = [
+                    "Saya lebih suka merencanakan segala sesuatu detail sebelum memulai.",
+                    "Ide-ide kreatif dan kemungkinan masa depan lebih menarik bagi saya daripada fakta saat ini.",
+                    "Dalam mengambil keputusan, perasaan dan nilai-nilai pribadi lebih penting daripada logika objektif.",
+                    "Saya merasa lebih nyaman ketika jadwal dan rutinitas saya terstruktur dengan jelas."
+                ];
+                
+                document.querySelector('.question-demo h3').textContent = `Pertanyaan ${currentQuestion}/5`;
+                document.querySelector('.question-demo p').textContent = `"${questions[currentQuestion-2]}"`;
+                document.getElementById('nextBtn').innerHTML = `<i class="fas fa-arrow-right"></i> ${currentQuestion < 5 ? 'Lanjut ke Pertanyaan ' + (currentQuestion + 1) : 'Lihat Hasil'}`;
+                
+                // Reset scale selection
+                selectedScale = 0;
+                document.querySelectorAll('.scale-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById('nextBtn').disabled = true;
+            } else {
+                // Show result
+                showResult();
+            }
+        }
+        
+        function showResult() {
+            // Determine demo MBTI based on score
+            let mbtiType = 'ENFP';
+            if (demoScore < 10) mbtiType = 'ISTJ';
+            else if (demoScore < 15) mbtiType = 'ISFJ';
+            else if (demoScore < 20) mbtiType = 'INFJ';
+            
+            document.getElementById('demoMBTI').textContent = mbtiType;
+            document.getElementById('resultDemo').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'none';
+            
+            // Scroll to result
+            document.getElementById('resultDemo').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetDemo() {
+            currentQuestion = 1;
+            demoScore = 0;
+            selectedScale = 0;
+            
+            document.querySelector('.question-demo h3').textContent = 'Pertanyaan 1/5';
+            document.querySelector('.question-demo p').textContent = '"Saya merasa lebih berenergi setelah menghabiskan waktu bersama banyak orang."';
+            document.getElementById('nextBtn').innerHTML = '<i class="fas fa-arrow-right"></i> Lanjut ke Pertanyaan 2';
+            document.getElementById('nextBtn').style.display = 'block';
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('resultDemo').style.display = 'none';
+            
+            document.querySelectorAll('.scale-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId !== '#') {
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Replace YOUR-USERNAME with actual GitHub username
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = prompt("Masukkan username GitHub kamu (untuk link repository):") || 'iyakk28';
+            document.querySelectorAll('a[href*="YOUR-USERNAME"]').forEach(link => {
+                link.href = link.href.replace('YOUR-USERNAME', username);
+            });
+        });
+    </script>
+</body>
+</html>
